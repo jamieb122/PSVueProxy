@@ -24,8 +24,6 @@ class MuxManager():
 
         for channel_id, title, logo in channel_list:
 
-            """pipe:///tmp/test.sh http://dsc-animalplanet-live-sonytv-i.akamaihd.net/npid=48B65C3665A42DBEC5E0ACF95450DBC23EC089405CB7B4B47D5103E210DAABAB&deviceid=android_tv&e=1526144299&hmac=66be0727a7735bb62e4eb766ae1d7c95f0699a67/PROD01/sony/DSC_ANIMALPLANET/live/master_wired_ads.m3u8"""
-
             url = "pipe://" + os.path.join(save_dir, "pipe.sh ")
             url += "\"http://127.0.0.1:"+str(globals.PORT) + "/psvue?params=" + urllib.quote(globals.CHANNEL_URL + channel_id) + "\""
 
