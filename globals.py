@@ -1,6 +1,6 @@
 import json
 import cookielib
-
+from databasemanager import DatabaseManager
 
 DATA_FILE = "datafile.dat"
 COOKIE_FILE = "cookies.lwp"
@@ -19,40 +19,37 @@ TAG = "Globals: "
 VERIFY = False
 
 def save_setting(key, value):
-    settingsFile = open(DATA_FILE)
-
-    try:
-        settingsFileContents = json.load(settingsFile)
-    except:
-        print(TAG + "Could not load settings")
-        return False
-    settingsFile.close()
-
-    settingsFileContents[key] = value
-
-    settingsFile = open(DATA_FILE, "w+")
-    json.dump(settingsFileContents, settingsFile)
-    settingsFile.close()
-
-    print(TAG + "Settings saved: " + str(settingsFileContents))
+    print(TAG, "saving setting " + key + ", " + value)
+    database_manager = DatabaseManager()
+    database_manager.save_setting(key, value)
 
 
 def get_setting(key):
+
+    database_manager = DatabaseManager()
+
+    value = database_manager.get_setting(key)
+
+    if value is None:
+        print(TAG + "setting("+key+") not found")
+        return False
+    else:
+        print(TAG + "Retrieved setting[" + key + "]: " + str(value))
+        return value
+
+
+def get_all_settings():
     settingsFile = open(DATA_FILE)
 
     try:
         settingsFileContents = json.load(settingsFile)
     except:
-        print(TAG + "Could not load settings")
-        return False
+        print(TAG + "could not load settings file as JSON")
+        return None
+
     settingsFile.close()
 
-    try:
-        value = settingsFileContents[key]
-        print(TAG + "Retrieved setting[" + key + "]: " + str(value))
-        return value
-    except:
-        return False
+    return settingsFileContents
 
 def save_cookies(cookie_jar):
     cj = cookielib.LWPCookieJar()

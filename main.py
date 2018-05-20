@@ -5,6 +5,8 @@ import time
 import webservice
 
 TAG = "Main: "
+
+
 #makes sure we have preferences etc and logs in to sony; also allows us to retrieve the channel list
 s = SONY()
 
