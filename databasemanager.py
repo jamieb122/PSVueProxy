@@ -48,7 +48,13 @@ class DatabaseManager():
     def get_setting(self, key):
         self.cursor = self.db_conn.cursor()
         self.cursor.execute("SELECT * FROM configuration WHERE key=?", (key,))
-        return self.cursor.fetchone()[1]
+
+        results = self.cursor.fetchone()
+
+        if results is None:
+        	return None
+        else:
+        	return self.cursor.fetchone()[1]
 
 
     def __del__(self):
